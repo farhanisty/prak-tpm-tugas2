@@ -1,4 +1,6 @@
+import 'package:belajar_getx/bindings/cart_binding.dart';
 import 'package:belajar_getx/bindings/product_binding.dart';
+import 'package:belajar_getx/views/pages/cart_page.dart';
 import 'package:belajar_getx/views/pages/product_detail_page.dart';
 import 'package:belajar_getx/views/pages/product_page.dart';
 import 'package:flutter/material.dart';
@@ -15,14 +17,18 @@ class MainApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       initialRoute: "/product",
+      debugShowCheckedModeBanner: false,
       getPages: [
         GetPage(
           name: "/product",
           page: () => ProductPage(),
-          binding: ProductBinding(),
+          bindings: [
+            ProductBinding(),
+            CartBinding()
+          ],
         ),
-
-        GetPage(name: "/detail", page: () => ProductDetailPage()),
+        GetPage(name: "/detail", page: () => ProductDetailPage(), binding: CartBinding()),
+        GetPage(name: "/cart", page: () => CartPage(), binding: CartBinding())
       ],
     );
   }

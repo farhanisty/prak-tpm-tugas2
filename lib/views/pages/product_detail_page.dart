@@ -1,8 +1,9 @@
+import 'package:belajar_getx/controllers/cart_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../models/product.dart';
 
-class ProductDetailPage extends StatelessWidget {
+class ProductDetailPage extends GetView<CartController> {
   ProductDetailPage({super.key});
   
   final Product product = Get.arguments as Product;
@@ -11,7 +12,43 @@ class ProductDetailPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: AppBar(backgroundColor: Colors.white, title: Text("Detail")),
+      appBar: AppBar(
+        backgroundColor: Colors.white, 
+        title: Text("Detail"),
+        actions: [
+            CircleAvatar(
+              backgroundColor: Colors.white,
+              child: Obx(() => IconButton(
+                onPressed: () {
+                  if(!controller.isProductInCart(product.id)) {
+                    controller.addCart(product);
+
+                    Get.snackbar(
+                      'Cart',
+                      '${product.title} added to cart',
+                      snackPosition: SnackPosition.BOTTOM,
+                      duration: const Duration(seconds: 2),
+                    );
+                  } else {
+                    controller.deleteCartById(product.id);
+
+                    Get.snackbar(
+                      'Cart',
+                      '${product.title} removed from cart',
+                      snackPosition: SnackPosition.BOTTOM,
+                      duration: const Duration(seconds: 2),
+                    );
+                  }
+                },
+                icon: Icon(
+                  (controller.isProductInCart(product.id)) ? Icons.shopping_cart : Icons.shopping_cart_outlined,
+                  color: Colors.black,
+                ),
+              )
+              ),
+            ),
+        ],
+      ),
       body: SingleChildScrollView(
         child: Padding(
           padding: EdgeInsets.all(12),

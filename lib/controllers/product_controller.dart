@@ -19,7 +19,6 @@ class ProductController extends GetxController {
  
   Future<void> _fetchProducts() async {
     _isLoading.value = true;
-    await Future.delayed(Duration(seconds: 3));
     final data = await _service.fetchProducts();
 
     _product.assignAll(data);
